@@ -1,0 +1,259 @@
+/*
+ *
+ * WordFind by Ryan Hoshor <ryan@farmsoftstudios.com>
+ * © 2011 FarmSoft Studios 
+
+The MIT License (MIT)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+*/
+
+
+*{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body {
+    height: 460px;
+    font-family: Helvetica;
+    font-size: 12pt;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0,#d5cea6),
+        color-stop(.4,#c9c190),
+        color-stop(.9,#b7ad70)
+    );
+    background: #d5cea6;
+    margin: 0;
+    padding:0;
+}
+
+::selection {
+    background: transparent;
+}
+
+table.puzzle {
+    width: 310px;
+    margin: 23px auto;
+    height: 320px;
+    border-collapse: collapse;
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+table.puzzle tr {
+    height: 10%;
+    border: 1px solid rgba(0,0,0,0.1);
+    margin: -1px;
+}
+
+table.puzzle tr td {
+    width: 10%;
+    border: 1px solid rgba(0,0,0,0.1);
+    vertical-align: middle;
+    text-align: center;
+    padding: 0;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(235,235,235)),
+        color-stop(0.9, rgb(255,255,255))
+    );
+    cursor: pointer;
+    text-transform: capitalize;
+}
+
+table.puzzle tr td:hover {
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(215,215,215)),
+        color-stop(0.7, rgb(245,245,245))
+    );
+}
+
+table.puzzle tr td.clicked {
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(205,205,205)),
+        color-stop(0.7, rgb(235,235,235))
+    );
+    -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.4);
+    border: none;
+}
+
+table.puzzle tr td.selected {
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(145,185,55)),
+        color-stop(0.7, rgb(175,205,35))
+    );
+    color: white;
+    cursor: default;
+    -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.4);
+    border: none;
+}
+
+h2.wordlistTitle {
+    text-align: center;
+    opacity: 0.1;
+    position: relative;
+    font-size: 45px;
+    margin: 0;
+    top: 10px;
+    z-index: 10;
+}
+
+ul.wordlist {
+    width: 310px;
+    padding: 0;
+    margin: 0;
+    margin: 0 auto;
+    list-style-type: none;
+    position: relative;
+    z-index: 20;
+    top: -64px;
+}
+
+ul.wordlist li {
+    padding: 2px 0;
+    margin: 1.5px 1%;
+    width: 48%;
+    float: left;
+    text-align: center;
+    background: rgba(255,255,255,0.3);
+    border-radius: 5px;
+    text-transform: uppercase;
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    color: white;
+    text-shadow: rgba(0,0,0,0.2) 1px 1px;
+    font-weight: bold;
+}
+
+ul.wordlist li.found {
+    text-decoration: line-through;
+    opacity: 0.5;
+    font-weight: 100;
+    color: black;
+}
+
+div#status {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    text-align: center;
+    font-size: 70%;
+    padding: 1px 0 2px 0;
+    color: white;
+    background: rgba(0,73,117,0.8)
+}
+
+div#status.finished {
+    color: rgb(145,185,55);
+}
+
+div.alert {
+    display: none;
+    width: 320px;
+    height: 460px;
+    position: absolute;
+    z-index: 3000;
+    background-color: rgba(0,0,0,0.2);
+    top: 0;
+}
+
+div.alert div.msgBox {
+    width: 250px;
+    height: 150px;
+    margin: 150px auto 0 auto;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(235,235,235)),
+        color-stop(0.9, rgb(255,255,255))
+    );
+    border-radius: 5px;
+    -webkit-box-shadow: 0 10px 40px rgba(0,0,0,0.6)
+}
+
+div.alert h2 {
+    text-align: center;
+    font-size: 90%;
+    padding: 1px 0 3px 0;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(50,50,50)),
+        color-stop(0.9, rgb(100,100,100))
+    );
+    border-top: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+div.alert span {
+    display: block;
+    padding: 0 20px;
+    text-align: center;
+    margin: 20px 0
+}
+
+div.alert span#button {
+    padding: 5px 10px;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(145,185,55)),
+        color-stop(0.7, rgb(175,205,35))
+    );
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 8px;
+    width: 50%;
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.6);
+    font-weight: bold;
+    color: white;
+    text-shadow: rgba(0,0,0,0.2) 1px 1px 4px;
+}
+
+div.finished span#button:hover {
+    cursor: pointer;
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(175,205,35)),
+        color-stop(0.7, rgb(145,185,55))
+    );
+}
