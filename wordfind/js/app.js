@@ -66,22 +66,22 @@ $(function() {
 	var wordsTable = $.getJSON( "words.json", function() {
 		// Tracking the original length of the array so we can calculate
 		// the offset of deleted words.
-		originalWordsLength = wordsTable.words.length;
+		originalWordsLength = this.words.length;
 		
 		// show the status bar.
-		$('#status').html("You have "+wordsTable.words.length+" words remaining.");
+		$('#status').html("You have "+originalWordsLength+" words remaining.");
 		
 	    // Create the wordlist
-		displayWordList(wordsTable);
+		displayWordList(this.words);
     
 		// Create the word Table
-		displayWordTable(wordsTable);
+		displayWordTable(this.words);
 		
 		// Init the table
-	    i = 0, l = wordsTable.words.length;
+	    i = 0, l = originalWordsLength;
 	    while(l > i){
 	        wordList[i] = [];
-	        if(scrambleWordsInTable(wordsTable.words[i], wordsTable, i)){
+	        if(scrambleWordsInTable(this.words[i], this.words, i)){
 	            i++;
 	        }
 	    }
