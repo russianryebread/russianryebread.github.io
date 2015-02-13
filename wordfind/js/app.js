@@ -76,6 +76,15 @@ $(function() {
     
 		// Create the word Table
 		displayWordTable(wordsTable);
+		
+		// Init the table
+	    i = 0, l = wordsTable.words.length;
+	    while(l > i){
+	        wordList[i] = [];
+	        if(scrambleWordsInTable(wordsTable.words[i], wordsTable, i)){
+	            i++;
+	        }
+	    }
 	
 	}).fail(function() {
 		console.log( "There was an error fetching JSON" );
@@ -109,15 +118,6 @@ $(function() {
     $('#button').click(function(e) {
         document.location.reload();
     });
-    
-    // Init the table
-    i = 0, l = wordsTable.words.length;
-    while(l > i){
-        wordList[i] = [];
-        if(scrambleWordsInTable(wordsTable.words[i], wordsTable, i)){
-            i++;
-        }
-    }
     
     // fill the table with dummy chars.
     fillTable();
