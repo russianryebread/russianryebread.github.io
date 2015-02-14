@@ -1,6 +1,6 @@
 ---
+layout: post
 title: Testing
-type: post
 ---
 
-test
+testing
